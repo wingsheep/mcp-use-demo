@@ -1,0 +1,16 @@
+{
+  "name": "@demo/mcp-server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "index.ts",
+  "scripts": {
+    "start": "tsx index.ts"
+  },
+  "dependencies": {
+    "@demo/shared": "workspace:^",
+    "@mcp-use/modelcontextprotocol-sdk": "1.24.3-mcp-use.4",
+    "mcp-use": "^1.11.1",
+    "zod": "^4.2.1"
+  }
+}

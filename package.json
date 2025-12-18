@@ -1,0 +1,23 @@
+{
+  "name": "mcp-use-demo",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10.6.5",
+  "workspaces": [
+    "agent",
+    "mcp-server",
+    "shared",
+    "web"
+  ],
+  "scripts": {
+    "dev": "pnpm --filter web dev",
+    "dev:agent": "pnpm --filter agent dev",
+    "dev:server": "pnpm --filter mcp-server start",
+    "inspector": "pnpm dlx @mcp-use/inspector"
+  },
+  "devDependencies": {
+    "@types/node": "^25.0.3",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  }
+}

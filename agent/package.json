@@ -1,0 +1,23 @@
+{
+  "name": "@demo/agent",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "agent.ts",
+  "types": "agent.ts",
+  "exports": {
+    ".": "./agent.ts",
+    "./uiResources": "./uiResources.ts"
+  },
+  "scripts": {
+    "dev": "tsx agent.ts",
+    "test:client": "tsx scripts/testClient.ts"
+  },
+  "dependencies": {
+    "@demo/shared": "workspace:^",
+    "@langchain/core": "^1.1.6",
+    "@langchain/openai": "^1.2.0",
+    "mcp-use": "^1.11.1",
+    "zod": "^4.2.1"
+  }
+}

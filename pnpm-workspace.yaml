@@ -1,0 +1,5 @@
+packages:
+  - agent
+  - mcp-server
+  - shared
+  - web

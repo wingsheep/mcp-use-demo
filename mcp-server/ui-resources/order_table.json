@@ -1,0 +1,17 @@
+{
+  "id": "order_table",
+  "type": "table",
+  "title": "订单列表",
+  "columns": [
+    { "key": "id", "label": "订单号" },
+    { "key": "status", "label": "状态", "badge": true },
+    { "key": "amount", "label": "金额", "format": "currency" }
+  ],
+  "actions": [
+    {
+      "label": "查看详情",
+      "action": "get_order_detail",
+      "params": ["id"]
+    }
+  ]
+}
