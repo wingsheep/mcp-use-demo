@@ -1,6 +1,6 @@
 # MCP Use × DeepSeek Demo
 
-MCP Use + DeepSeek 的完整链路 Demo，包含 MCP Server、MCP Client/Agent、API 层与 Nuxt Web 前端。
+MCP Use + DeepSeek 的完整链路 Demo，包含 MCP Server/UI resources、MCP Client/Agent、API 层与 Nuxt Web 前端。
 
 ![preview](demo.gif)
 
