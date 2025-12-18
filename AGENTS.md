@@ -388,7 +388,7 @@ AgentResponse
 
 ---
 
-### Task 5.1：初始化 Nuxt 3
+### Task 5.1：初始化 Nuxt 4
 
 目录：`web/`
 
