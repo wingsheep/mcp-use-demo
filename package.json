@@ -1,6 +1,7 @@
 {
   "name": "mcp-use-demo",
   "version": "0.1.0",
+  "description": "MCP Use + DeepSeek 的完整链路 Demo，包含 MCP Server/UI resources、MCP Client/Agent、API 层与 Nuxt Web 前端。",
   "private": true,
   "packageManager": "pnpm@10.6.5",
   "workspaces": [
