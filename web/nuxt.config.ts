@@ -4,7 +4,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ["@nuxt/ui"],
   ssr: false,
-  css: ["~/assets/css/main.css"],
+  css: ["~/assets/css/main.css", "markstream-vue/index.css"],
   colorMode: {
     preference: "light",
     fallback: "light",

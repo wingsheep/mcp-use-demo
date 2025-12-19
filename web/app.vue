@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from "vue"
+import type { ComponentPublicInstance } from "vue"
+import { nextTick, onMounted, ref, watch } from "vue"
 import type { UIMessage, ChatStatus } from "ai"
 import type { AgentAction, AgentStreamEvent, UIBlock } from "@demo/shared"
 import MessageRenderer from "./components/MessageRenderer.vue"
@@ -9,6 +10,7 @@ const config = useRuntimeConfig()
 const apiBase = config.public.apiBase || ""
 type ChatMessage = UIMessage<{ blocks?: UIBlock[] }>
 const messages = ref<ChatMessage[]>([])
+const messagesWrapper = ref<HTMLElement | ComponentPublicInstance | null>(null)
 
 const createId = () =>
   globalThis.crypto && typeof globalThis.crypto.randomUUID === "function"
@@ -28,6 +30,35 @@ const suggestions = ref<string[]>([
   "刷新最新订单数据"
 ])
 const abortController = ref<AbortController | null>(null)
+const resolveScrollElement = (): HTMLElement | null => {
+  const target = messagesWrapper.value
+  if (!target) return null
+  if ("$el" in target) {
+    return (target.$el as HTMLElement | null) ?? null
+  }
+  return target
+}
+
+const scrollToBottom = async (reason = "manual") => {
+  await nextTick()
+  const el = resolveScrollElement()
+  if (!el) {
+    console.debug("[chat] skip scroll: wrapper missing", { reason })
+    return
+  }
+  const before = {
+    scrollTop: el.scrollTop,
+    scrollHeight: el.scrollHeight,
+    clientHeight: el.clientHeight
+  }
+  const targetTop = el.scrollHeight
+  console.debug("[chat] scroll request", { reason, before, targetTop })
+  el.scrollTo({
+    top: targetTop,
+    behavior: "smooth"
+  })
+}
+
 
 const applyTheme = (value: "light" | "dark") => {
   const root = document.documentElement
@@ -61,6 +92,7 @@ const sendMessage = async ({ message, action }: { message?: string; action?: Age
       parts: [{ type: "text", text: userContent }]
     })
     chatStatus.value = "submitted"
+    scrollToBottom("user_message")
   }
 
   loading.value = true
@@ -74,11 +106,13 @@ const sendMessage = async ({ message, action }: { message?: string; action?: Age
     parts: []
   }
   messages.value.push(assistantMessage)
+  scrollToBottom("assistant_message_init")
   const updateAssistant = (blocks: UIBlock[]) => {
     assistantMessage.metadata = { ...assistantMessage.metadata, blocks }
     messages.value = messages.value.map((msg) =>
       msg.id === assistantMessage.id ? { ...assistantMessage } : msg
     )
+    scrollToBottom("assistant_message_update")
   }
   const url = `${apiBase}/api/chat/stream`
   const controller = new AbortController()
@@ -254,21 +288,24 @@ const triggerSubmit = () => onSubmit(new Event("submit"))
 
         <div v-else class="chat-history">
           <UChatPalette class="chat-card mx-auto max-w-4xl overflow-hidden rounded-2xl">
-            <div class="chat-messages max-h-[65vh] overflow-y-auto p-4">
-              <UChatMessages
-                :messages="messages"
-                :status="chatStatus"
-                :should-auto-scroll="true"
-                :should-scroll-to-bottom="true"
-                :assistant="{ variant: 'naked' }"
-                :user="{ variant: 'soft' }"
-                class="space-y-3"
-              >
-                <template #content="{ message }">
-                  <MessageRenderer :message="message" @action="handleAction" />
-                </template>
-              </UChatMessages>
-            </div>
+            <UChatMessages
+              ref="messagesWrapper"
+              :messages="messages"
+              :status="chatStatus"
+              :should-auto-scroll="true"
+              :should-scroll-to-bottom="true"
+              :assistant="{ variant: 'naked' }"
+              :user="{ variant: 'soft' }"
+              class="chat-messages max-h-[65vh] overflow-y-auto space-y-3 p-4"
+            >
+              <template #content="{ message }">
+                <MessageRenderer
+                  :message="message"
+                  @action="handleAction"
+                  @content-resized="(source) => scrollToBottom(source ?? 'renderer')"
+                />
+              </template>
+            </UChatMessages>
 
             <template #prompt>
               <div class="chat-input border-t">

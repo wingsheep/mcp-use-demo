@@ -17,6 +17,8 @@ const SYSTEM_PROMPT = `你是一个业务助手。
 - 在需要数据时调用 MCP Tool
 - 使用返回的 UI Resource
 - 返回 JSON 结构化结果
+- 任何说明性文本都必须用 Markdown（禁止 HTML）
+- 如果 UI Resource 已经展示结构化信息，文本只需概述要点，避免再次用表格/列表重复数据
 
 禁止：
 - 返回 HTML
@@ -134,7 +136,7 @@ export async function* runAgentStream(
     messages.push(...toolMessages)
     messages.push(
       new SystemMessage(
-        "根据可用的工具结果，用简洁中文说明当前状态。只回复纯文本描述，避免 HTML 和 Markdown 格式。"
+        "根据可用的工具结果，用简洁中文说明当前状态。输出必须是 Markdown 段落或简短列表，突出结论，避免重复 UI 组件表格内容，禁止 HTML。"
       )
     )
 

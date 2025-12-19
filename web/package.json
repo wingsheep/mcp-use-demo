@@ -9,10 +9,11 @@
     "start": "nuxt start"
   },
   "dependencies": {
-    "@demo/shared": "workspace:^",
     "@demo/agent": "workspace:^",
+    "@demo/shared": "workspace:^",
     "@nuxt/ui": "^4.3.0",
     "ai": "^5.0.114",
+    "markstream-vue": "0.0.3-beta.7",
     "nuxt": "^4.2.2",
     "vue": "^3.5.25"
   },
