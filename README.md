@@ -2,7 +2,7 @@
 
 MCP Use + DeepSeek 的完整链路 Demo，包含 MCP Server/UI resources、MCP Client/Agent、API 层与 Nuxt Web 前端。
 
-![preview](demo.gif)
+![preview](https://cdn.jsdelivr.net/gh/wingsheep/FigureBed@master/img/mpc-use-demo.gif)
 
 ## 目录
 - `mcp-server/`：订单 Mock 数据与 MCP 工具（get_orders / get_order_detail）。
